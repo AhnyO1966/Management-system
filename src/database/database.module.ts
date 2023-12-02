@@ -14,11 +14,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
               database: configService.getOrThrow('DB_NAME'),
               synchronize: configService.getOrThrow('DB_SYNCHRONIZE'),
               autoLoadEntities: true,
-      
-            }),
-        
-               inject:[ConfigService],
-              }),
+
+        }),
+         inject:[ConfigService],
+        }),
+
     ]
+
 })
-export class DatabaseModule {}
+         export class DatabaseModule {}
+    
+
+    
+       
+        
+
+            
+        
