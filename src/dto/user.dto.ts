@@ -14,6 +14,10 @@ export class userDto{
 
     @IsNotEmpty()
     @IsString()
+    username: string
+
+    @IsNotEmpty()
+    @IsString()
     @MinLength(6, {message: 'sorry you must put in 6 characters'})
     @MaxLength(16, {message: 'sorry password higher than 16 characters'})
     @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/,
