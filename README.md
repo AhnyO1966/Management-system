@@ -3,4 +3,7 @@ THINGS ARE INSTALLED
 * myqrl2
 * nestjs/config
 * types/bcrypt
+* cookie-parser
+* @types/cookie-parser
+
 

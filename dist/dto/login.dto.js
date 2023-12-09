@@ -9,31 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userDto = void 0;
+exports.logindto = void 0;
 const class_validator_1 = require("class-validator");
-class userDto {
+class logindto {
 }
-exports.userDto = userDto;
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], userDto.prototype, "firstName", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], userDto.prototype, "lastName", void 0);
+exports.logindto = logindto;
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
-], userDto.prototype, "email", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], userDto.prototype, "username", void 0);
+], logindto.prototype, "email", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
@@ -41,5 +26,5 @@ __decorate([
     (0, class_validator_1.MaxLength)(16, { message: 'sorry password higher than 16 characters' }),
     (0, class_validator_1.Matches)(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/, { message: 'password must contain at least one Uppercase, one number and one special key' }),
     __metadata("design:type", String)
-], userDto.prototype, "password", void 0);
-//# sourceMappingURL=user.dto.js.map
+], logindto.prototype, "password", void 0);
+//# sourceMappingURL=login.dto.js.map

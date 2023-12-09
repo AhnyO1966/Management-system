@@ -18,27 +18,43 @@ const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("../entity/user.entity");
 const typeorm_2 = require("typeorm");
 const bcrypt = require("bcrypt");
+const jwt_1 = require("@nestjs/jwt");
 let AuthService = class AuthService {
-    constructor(userRepository) {
+    constructor(userRepository, jwtService) {
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
     }
     async signUp(payload) {
-        const { firstName, lastName, email, password } = payload;
+        const { email, password, ...rest } = payload;
         const userEmail = await this.userRepository.findOne({ where: { email: email } });
         if (userEmail) {
             throw new common_1.HttpException('sorry user with this email already exist', 404);
         }
         const hashPassword = await bcrypt.hash(password, 12);
-        const user = await this.userRepository.save({ firstName,
-            lastName, email, password: hashPassword });
+        const user = await this.userRepository.save({
+            email, password: hashPassword, ...rest
+        });
         delete user.password;
         return user;
+    }
+    async signIn(payload) {
+        const { email, password } = payload;
+        const user = await this.authRepo.findOne({ where: { email: email } });
+        if (!user) {
+            throw new common_1.HttpException('invalid credentials', 400);
+        }
+        if (!await bcrypt.compare(password, user.password)) {
+            throw new common_1.HttpException('invalid credentials', 400);
+        }
+        const jwtPayload = { id: user.id, email: user.password };
+        const jwtToken = await this.jwtService.signAsync(jwtPayload);
+        return { token: jwtToken };
     }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository, jwt_1.JwtService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map
