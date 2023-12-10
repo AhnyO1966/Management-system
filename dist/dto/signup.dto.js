@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signupDto = void 0;
 const class_validator_1 = require("class-validator");
+const role_1 = require("../enum/role");
 class signupDto {
 }
 exports.signupDto = signupDto;
@@ -42,4 +43,8 @@ __decorate([
     (0, class_validator_1.Matches)(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/, { message: 'password must contain at least one Uppercase, one number and one special key' }),
     __metadata("design:type", String)
 ], signupDto.prototype, "password", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], signupDto.prototype, "role", void 0);
 //# sourceMappingURL=signup.dto.js.map

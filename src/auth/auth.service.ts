@@ -1,4 +1,4 @@
-import { HttpException, Injectable, Res } from '@nestjs/common';
+import { HttpException, Injectable, Res, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entity/user.entity';
 import { Repository } from 'typeorm';
@@ -47,11 +47,43 @@ export class AuthService {
             throw new HttpException('invalid credentials', 400);
         }
 
-        const jwtPayload = {id:user.Id, email:user.password}
+        const jwtPayload = {id:user.id, email:user.email}
         const jwtToken = await this.jwtService.signAsync(jwtPayload)
 
         return {token: jwtToken};
     }
+     async findEmail(email:string){
+        const mail = await this.userRepository.findOneByOrFail({email})
+        if(!mail){
+            throw new UnauthorizedException()
 
-}
+        }
+        return mail;
+     }
 
+     async findAllUser(){
+        return await this.userRepository.find()
+     }
+
+     async User(headers:any) :Promise<any>{
+        const authorizationHeader = headers.authorization;
+        if (authorizationHeader) {
+            const token = authorizationHeader.replace('Bearer', '');
+            const seceret = process.env.JWT_SECRET;
+            try{
+                const decoded = this.jwtService.verify(token);
+                let id = decoded["id"];
+                let user = await this.userRepository.findOneBy({id});
+
+                return{id, name:user.username, email:user.email, role:user.role};   
+                     }catch (error) {
+                        throw new UnauthorizedException('Invalid token  you are trying');
+
+                     }
+
+        }else{
+            throw new UnauthorizedException('Invalid or missing Bearer token');
+        }
+     }
+
+    }

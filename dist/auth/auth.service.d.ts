@@ -12,10 +12,14 @@ export declare class AuthService {
         firstName: string;
         lastName: string;
         username: string;
+        role: import("../enum/role").Role;
         email: string;
         password: string;
     } & User>;
     signIn(payload: loginDto): Promise<{
         token: string;
     }>;
+    findEmail(email: string): Promise<User>;
+    findAllUser(): Promise<User[]>;
+    User(headers: any): Promise<any>;
 }

@@ -18,7 +18,7 @@ exports.User = User;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], User.prototype, "Id", void 0);
+], User.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -43,7 +43,7 @@ __decorate([
     (0, typeorm_1.Column)({
         type: 'enum',
         enum: role_1.Role,
-        default: role_1.Role.customer,
+        default: role_1.Role.unknown,
     }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);

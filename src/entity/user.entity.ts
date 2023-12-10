@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class User{
     @PrimaryGeneratedColumn()
-    Id: number;
+    id: number;
 
     @Column()
     firstName: string;
@@ -23,7 +23,7 @@ export class User{
     @Column({
         type: 'enum',
         enum: Role,
-        default: Role.customer,
+        default: Role.unknown,
     })
     role: Role
     

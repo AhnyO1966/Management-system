@@ -1,10 +1,14 @@
-import { Body, Controller, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { signupDto } from '../dto/signup.Dto';
 import { loginDto } from 'src/dto/login.Dto';
 import {Response} from 'express';
 import { send } from 'process';
 import { User } from 'src/entity/user.entity';
+import { AuthGuard, IAuthGuard, Type } from '@nestjs/passport';
+import { Role } from 'src/enum/role';
+import { Roles } from './guard/role';
+import { RolesGuard } from './guard/role.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -30,16 +34,26 @@ export class AuthController {
         }
 
         @Post('logout')
-        logout(@Res()res: Response){
+        async logout(@Body()payload, @Res()res:Response){
 
-            const token = 'userToken';
-            res.clearCookie('userToken', );
+            const token = await this.authService.signIn(payload);;
+            res.clearCookie('token');
 
                 res.send('logged out successfully')
             }
+
+            @Get()
+            @UseGuards(AuthGuard(), RolesGuard)
+            @Roles('admin','customer')
+            async findUser(){
+                return await this.authService.findAllUser()
+            }
         }
 
-function clearCookie() {
-    throw new Error('logout failed');
-}
+
+
+
+// function clearCookie() {
+//     throw new Error('logout failed');
+// }
 

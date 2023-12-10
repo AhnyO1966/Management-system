@@ -17,6 +17,9 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const signup_Dto_1 = require("../dto/signup.Dto");
 const login_Dto_1 = require("../dto/login.Dto");
+const passport_1 = require("@nestjs/passport");
+const role_1 = require("./guard/role");
+const role_guard_1 = require("./guard/role.guard");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -36,10 +39,14 @@ let AuthController = class AuthController {
             userToken: token
         });
     }
-    logout(res) {
-        const token = 'userToken';
-        res.clearCookie('userToken');
+    async logout(payload, res) {
+        const token = await this.authService.signIn(payload);
+        ;
+        res.clearCookie('token');
         res.send('logged out successfully');
+    }
+    async findUser() {
+        return await this.authService.findAllUser();
     }
 };
 exports.AuthController = AuthController;
@@ -60,16 +67,22 @@ __decorate([
 ], AuthController.prototype, "login", null);
 __decorate([
     (0, common_1.Post)('logout'),
-    __param(0, (0, common_1.Res)()),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
+__decorate([
+    (0, common_1.Get)(),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)(), role_guard_1.RolesGuard),
+    (0, role_1.Roles)('admin', 'customer'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "findUser", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
-function clearCookie() {
-    throw new Error('logout failed');
-}
 //# sourceMappingURL=auth.controller.js.map

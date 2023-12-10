@@ -46,9 +46,38 @@ let AuthService = class AuthService {
         if (!await bcrypt.compare(password, user.password)) {
             throw new common_1.HttpException('invalid credentials', 400);
         }
-        const jwtPayload = { id: user.Id, email: user.password };
+        const jwtPayload = { id: user.id, email: user.email };
         const jwtToken = await this.jwtService.signAsync(jwtPayload);
         return { token: jwtToken };
+    }
+    async findEmail(email) {
+        const mail = await this.userRepository.findOneByOrFail({ email });
+        if (!mail) {
+            throw new common_1.UnauthorizedException();
+        }
+        return mail;
+    }
+    async findAllUser() {
+        return await this.userRepository.find();
+    }
+    async User(headers) {
+        const authorizationHeader = headers.authorization;
+        if (authorizationHeader) {
+            const token = authorizationHeader.replace('Bearer', '');
+            const seceret = process.env.JWT_SECRET;
+            try {
+                const decoded = this.jwtService.verify(token);
+                let id = decoded["id"];
+                let user = await this.userRepository.findOneBy({ id });
+                return { id, name: user.username, email: user.email, role: user.role };
+            }
+            catch (error) {
+                throw new common_1.UnauthorizedException('Invalid token  you are trying');
+            }
+        }
+        else {
+            throw new common_1.UnauthorizedException('Invalid or missing Bearer token');
+        }
     }
 };
 exports.AuthService = AuthService;
