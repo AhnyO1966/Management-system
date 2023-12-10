@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { signupDto } from '../dto/signup.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { logindto } from 'src/dto/login.Dto';
+import { loginDto } from 'src/dto/login.Dto';
 
 @Injectable()
 export class AuthService {
@@ -34,7 +34,7 @@ export class AuthService {
         return user;
     }
 
-    async signIn(payload:logindto){
+    async signIn(payload:loginDto){
         const {email, password}=payload;
 
         const user = await this.userRepository.findOne({where:{email:email}});
