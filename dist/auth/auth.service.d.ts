@@ -2,7 +2,7 @@ import { User } from '../entity/user.entity';
 import { Repository } from 'typeorm';
 import { signupDto } from '../dto/signup.dto';
 import { JwtService } from '@nestjs/jwt';
-import { logindto } from 'src/dto/login.dto';
+import { loginDto } from 'src/dto/login.Dto';
 export declare class AuthService {
     private userRepository;
     private jwtService;
@@ -15,7 +15,7 @@ export declare class AuthService {
         email: string;
         password: string;
     } & User>;
-    signIn(payload: logindto): Promise<{
+    signIn(payload: loginDto): Promise<{
         token: string;
     }>;
 }

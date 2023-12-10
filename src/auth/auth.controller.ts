@@ -1,8 +1,10 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Param, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { signupDto } from '../dto/signup.dto';
+import { signupDto } from '../dto/signup.Dto';
 import { loginDto } from 'src/dto/login.Dto';
 import {Response} from 'express';
+import { send } from 'process';
+import { User } from 'src/entity/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -26,4 +28,18 @@ export class AuthController {
                 userToken: token
             })
         }
+
+        @Post('logout')
+        logout(@Res()res: Response){
+
+            const token = 'userToken';
+            res.clearCookie('userToken', );
+
+                res.send('logged out successfully')
+            }
+        }
+
+function clearCookie() {
+    throw new Error('logout failed');
 }
+

@@ -15,13 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
-const signup_dto_1 = require("../dto/signup.dto");
-const login_dto_1 = require("../dto/login.dto");
+const signup_Dto_1 = require("../dto/signup.Dto");
+const login_Dto_1 = require("../dto/login.Dto");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    async register(payload) {
+    async signup(payload) {
         return await this.authService.signUp(payload);
     }
     async login(payload, res) {
@@ -36,25 +36,40 @@ let AuthController = class AuthController {
             userToken: token
         });
     }
+    logout(res) {
+        const token = 'userToken';
+        res.clearCookie('userToken');
+        res.send('logged out successfully');
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('signUp'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [signup_dto_1.signupDto]),
+    __metadata("design:paramtypes", [signup_Dto_1.signupDto]),
     __metadata("design:returntype", Promise)
-], AuthController.prototype, "register", null);
+], AuthController.prototype, "signup", null);
 __decorate([
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [login_dto_1.logindto, Object]),
+    __metadata("design:paramtypes", [login_Dto_1.loginDto, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.Post)('logout'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "logout", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
+function clearCookie() {
+    throw new Error('logout failed');
+}
 //# sourceMappingURL=auth.controller.js.map

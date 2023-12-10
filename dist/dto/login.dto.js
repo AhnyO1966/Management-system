@@ -9,16 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logindto = void 0;
+exports.loginDto = void 0;
 const class_validator_1 = require("class-validator");
-class logindto {
+class loginDto {
 }
-exports.logindto = logindto;
+exports.loginDto = loginDto;
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
-], logindto.prototype, "email", void 0);
+], loginDto.prototype, "email", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
@@ -26,5 +26,5 @@ __decorate([
     (0, class_validator_1.MaxLength)(16, { message: 'sorry password higher than 16 characters' }),
     (0, class_validator_1.Matches)(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/, { message: 'password must contain at least one Uppercase, one number and one special key' }),
     __metadata("design:type", String)
-], logindto.prototype, "password", void 0);
-//# sourceMappingURL=login.dto.js.map
+], loginDto.prototype, "password", void 0);
+//# sourceMappingURL=login.Dto.js.map
