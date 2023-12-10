@@ -24,8 +24,17 @@ let AuthController = class AuthController {
     async register(payload) {
         return await this.authService.signUp(payload);
     }
-    async login(payload) {
-        return await this.authService.signIn(payload);
+    async login(payload, res) {
+        const token = await this.authService.signIn(payload);
+        res.cookie('user isAuthenticated', token, {
+            httpOnly: true,
+            maxAge: 1 * 60 * 60 * 24
+        });
+        return res.send({
+            StatusCode: 201,
+            success: true,
+            userToken: token
+        });
     }
 };
 exports.AuthController = AuthController;
@@ -39,8 +48,9 @@ __decorate([
 __decorate([
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [login_dto_1.logindto]),
+    __metadata("design:paramtypes", [login_dto_1.logindto, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 exports.AuthController = AuthController = __decorate([

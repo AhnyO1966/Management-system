@@ -1,6 +1,7 @@
 import { AuthService } from './auth.service';
 import { signupDto } from '../dto/signup.dto';
 import { logindto } from 'src/dto/login.dto';
+import { Response } from 'express';
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
@@ -11,7 +12,5 @@ export declare class AuthController {
         email: string;
         password: string;
     } & import("../entity/user.entity").User>;
-    login(payload: logindto): Promise<{
-        token: string;
-    }>;
+    login(payload: logindto, res: Response): Promise<Response<any, Record<string, any>>>;
 }

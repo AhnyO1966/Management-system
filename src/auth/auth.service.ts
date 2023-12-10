@@ -1,11 +1,12 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Res } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entity/user.entity';
 import { Repository } from 'typeorm';
 import { signupDto } from '../dto/signup.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { logindto } from 'src/dto/login.dto';
+import { logindto } from 'src/dto/login.Dto';
+
 @Injectable()
 export class AuthService {
     authRepo: any;
@@ -36,7 +37,7 @@ export class AuthService {
     async signIn(payload:logindto){
         const {email, password}=payload;
 
-        const user = await this.authRepo.findOne({where:{email:email}});
+        const user = await this.userRepository.findOne({where:{email:email}});
         if(!user){
             throw new HttpException('invalid credentials', 400);
    
@@ -46,7 +47,7 @@ export class AuthService {
             throw new HttpException('invalid credentials', 400);
         }
 
-        const jwtPayload = {id:user.id, email:user.password}
+        const jwtPayload = {id:user.Id, email:user.password}
         const jwtToken = await this.jwtService.signAsync(jwtPayload)
 
         return {token: jwtToken};

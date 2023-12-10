@@ -39,14 +39,14 @@ let AuthService = class AuthService {
     }
     async signIn(payload) {
         const { email, password } = payload;
-        const user = await this.authRepo.findOne({ where: { email: email } });
+        const user = await this.userRepository.findOne({ where: { email: email } });
         if (!user) {
             throw new common_1.HttpException('invalid credentials', 400);
         }
         if (!await bcrypt.compare(password, user.password)) {
             throw new common_1.HttpException('invalid credentials', 400);
         }
-        const jwtPayload = { id: user.id, email: user.password };
+        const jwtPayload = { id: user.Id, email: user.password };
         const jwtToken = await this.jwtService.signAsync(jwtPayload);
         return { token: jwtToken };
     }
