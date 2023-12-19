@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { signupDto } from '../dto/signup.Dto';
-import { loginDto } from 'src/dto/login.Dto';
+import { signupDto } from '../dto/signup.dto';
+import { loginDto } from '../dto/login.dto';
 import {Response} from 'express';
-import { send } from 'process';
-import { User } from 'src/entity/user.entity';
+// import { send } from 'process';
+// import { User } from 'src/entity/user.entity';
 import { AuthGuard, IAuthGuard, Type } from '@nestjs/passport';
-import { Role } from 'src/enum/role';
+// import { Role } from 'src/enum/role';
 import { Roles } from './guard/role';
 import { RolesGuard } from './guard/role.guard';
 
@@ -22,7 +22,7 @@ export class AuthController {
         @Post('login')
         async login(@Body()payload: loginDto, @Res()res:Response){//ensure you import Response from expressjs
             const token = await this.authService.signIn(payload);
-            res.cookie('user isAuthenticated', token, {
+            res.cookie('isAuthenticated', token, {
                 httpOnly: true,
                 maxAge: 1 * 60 * 60 * 24 
             });
@@ -37,12 +37,12 @@ export class AuthController {
         async logout(@Body()payload, @Res()res:Response){
 
             const token = await this.authService.signIn(payload);;
-            res.clearCookie('token');
+            res.clearCookie('isAuthenticated');
 
                 res.send('logged out successfully')
             }
 
-            @Get()
+            @Get('get')
             @UseGuards(AuthGuard(), RolesGuard)
             @Roles('admin','customer')
             async findUser(){

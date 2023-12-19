@@ -27,4 +27,4 @@ __decorate([
     (0, class_validator_1.Matches)(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/, { message: 'password must contain at least one Uppercase, one number and one special key' }),
     __metadata("design:type", String)
 ], loginDto.prototype, "password", void 0);
-//# sourceMappingURL=login.Dto.js.map
+//# sourceMappingURL=login.dto.js.map

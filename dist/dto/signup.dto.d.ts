@@ -1,4 +1,4 @@
-import { Role } from "src/enum/role";
+import { Role } from "../enum/role";
 export declare class signupDto {
     firstName: string;
     lastName: string;

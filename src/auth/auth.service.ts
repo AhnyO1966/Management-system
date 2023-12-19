@@ -5,7 +5,8 @@ import { Repository } from 'typeorm';
 import { signupDto } from '../dto/signup.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { loginDto } from 'src/dto/login.Dto';
+// import { loginDto } from 'src/dto/login.dto';
+import { loginDto } from '../dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -66,24 +67,22 @@ export class AuthService {
      }
 
      async User(headers:any) :Promise<any>{
-        const authorizationHeader = headers.authorization;
+        const authorizationHeader = headers.authorization; 
         if (authorizationHeader) {
-            const token = authorizationHeader.replace('Bearer', '');
-            const seceret = process.env.JWT_SECRET;
-            try{
-                const decoded = this.jwtService.verify(token);
-                let id = decoded["id"];
-                let user = await this.userRepository.findOneBy({id});
-
-                return{id, name:user.username, email:user.email, role:user.role};   
-                     }catch (error) {
-                        throw new UnauthorizedException('Invalid token  you are trying');
-
-                     }
-
+        const token = authorizationHeader.replace('Bearer ', ''); 
+        const secret = process.env.JWT_SECRET;
+        try {
+          const decoded = this.jwtService.verify(token); 
+          let id =decoded["id"];
+          let user= await this.userRepository.findOneBy({id});
+          
+    return {id,name:user.username,email:user.email,role:user.role};
+        } catch (error) {
+          throw new UnauthorizedException('Invalid token');
+        }
         }else{
             throw new UnauthorizedException('Invalid or missing Bearer token');
         }
-     }
+    }
 
     }

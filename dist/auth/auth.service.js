@@ -63,8 +63,8 @@ let AuthService = class AuthService {
     async User(headers) {
         const authorizationHeader = headers.authorization;
         if (authorizationHeader) {
-            const token = authorizationHeader.replace('Bearer', '');
-            const seceret = process.env.JWT_SECRET;
+            const token = authorizationHeader.replace('Bearer ', '');
+            const secret = process.env.JWT_SECRET;
             try {
                 const decoded = this.jwtService.verify(token);
                 let id = decoded["id"];
@@ -72,7 +72,7 @@ let AuthService = class AuthService {
                 return { id, name: user.username, email: user.email, role: user.role };
             }
             catch (error) {
-                throw new common_1.UnauthorizedException('Invalid token  you are trying');
+                throw new common_1.UnauthorizedException('Invalid token');
             }
         }
         else {

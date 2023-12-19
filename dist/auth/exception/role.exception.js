@@ -8,4 +8,4 @@ class ForbiddenRoleException extends common_1.ForbiddenException {
     }
 }
 exports.ForbiddenRoleException = ForbiddenRoleException;
-//# sourceMappingURL=role,exception.js.map
+//# sourceMappingURL=role.exception.js.map

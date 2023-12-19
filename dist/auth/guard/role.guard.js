@@ -13,7 +13,7 @@ exports.RolesGuard = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const auth_service_1 = require("../auth.service");
-const role_exception_1 = require("../exception/role,exception");
+const role_exception_1 = require("../exception/role.exception");
 let RolesGuard = class RolesGuard {
     constructor(reflector, authService) {
         this.reflector = reflector;
@@ -21,7 +21,6 @@ let RolesGuard = class RolesGuard {
     }
     async canActivate(context) {
         const roles = this.reflector.get('roles', context.getHandler());
-        console.log('roles', roles);
         const request = context.switchToHttp().getRequest();
         if (request?.user) {
             const headers = request.headers;

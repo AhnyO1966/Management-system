@@ -1,9 +1,7 @@
 import { AuthService } from './auth.service';
-import { signupDto } from '../dto/signup.Dto';
-import { loginDto } from 'src/dto/login.Dto';
+import { signupDto } from '../dto/signup.dto';
+import { loginDto } from '../dto/login.dto';
 import { Response } from 'express';
-import { User } from 'src/entity/user.entity';
-import { Role } from 'src/enum/role';
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
@@ -11,11 +9,11 @@ export declare class AuthController {
         firstName: string;
         lastName: string;
         username: string;
-        role: Role;
+        role: import("../enum/role").Role;
         email: string;
         password: string;
-    } & User>;
+    } & import("../entity/user.entity").User>;
     login(payload: loginDto, res: Response): Promise<Response<any, Record<string, any>>>;
     logout(payload: any, res: Response): Promise<void>;
-    findUser(): Promise<User[]>;
+    findUser(): Promise<import("../entity/user.entity").User[]>;
 }

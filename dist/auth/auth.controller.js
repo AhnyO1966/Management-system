@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
-const signup_Dto_1 = require("../dto/signup.Dto");
-const login_Dto_1 = require("../dto/login.Dto");
+const signup_dto_1 = require("../dto/signup.dto");
+const login_dto_1 = require("../dto/login.dto");
 const passport_1 = require("@nestjs/passport");
 const role_1 = require("./guard/role");
 const role_guard_1 = require("./guard/role.guard");
@@ -29,7 +29,7 @@ let AuthController = class AuthController {
     }
     async login(payload, res) {
         const token = await this.authService.signIn(payload);
-        res.cookie('user isAuthenticated', token, {
+        res.cookie('isAuthenticated', token, {
             httpOnly: true,
             maxAge: 1 * 60 * 60 * 24
         });
@@ -42,7 +42,7 @@ let AuthController = class AuthController {
     async logout(payload, res) {
         const token = await this.authService.signIn(payload);
         ;
-        res.clearCookie('token');
+        res.clearCookie('isAuthenticated');
         res.send('logged out successfully');
     }
     async findUser() {
@@ -54,7 +54,7 @@ __decorate([
     (0, common_1.Post)('signUp'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [signup_Dto_1.signupDto]),
+    __metadata("design:paramtypes", [signup_dto_1.signupDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signup", null);
 __decorate([
@@ -62,7 +62,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [login_Dto_1.loginDto, Object]),
+    __metadata("design:paramtypes", [login_dto_1.loginDto, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
@@ -74,7 +74,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)('get'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)(), role_guard_1.RolesGuard),
     (0, role_1.Roles)('admin', 'customer'),
     __metadata("design:type", Function),
