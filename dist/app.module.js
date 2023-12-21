@@ -13,6 +13,7 @@ const config_1 = require("@nestjs/config");
 const auth_module_1 = require("./auth/auth.module");
 const throttler_1 = require("@nestjs/throttler");
 const core_1 = require("@nestjs/core");
+const product_module_1 = require("./product/product.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -33,6 +34,7 @@ exports.AppModule = AppModule = __decorate([
                     },
                 ],
             }),
+            product_module_1.ProductModule,
         ],
         controllers: [],
         providers: [

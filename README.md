@@ -6,7 +6,7 @@ THINGS ARE INSTALLED
 * cookie-parser
 * @types/cookie-parser
 * created login.Dto.ts
-* intall nestjs/throller
+* intall nestjs/throttler
 
 
 

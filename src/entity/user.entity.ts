@@ -1,5 +1,6 @@
 import { Role } from "src/enum/role";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "src/product/entities/product.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User{
@@ -25,7 +26,14 @@ export class User{
         enum: Role,
         default: Role.unknown,
     })
-    role: Role
+    role: Role;
+
+    @CreateDateColumn()
+    created_At: Date;
+
+    @OneToMany(() => Product, (Product) =>
+    Product.user)
+    product: Product[];
     
     
 

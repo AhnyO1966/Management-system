@@ -9,54 +9,51 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
-const role_1 = require("../enum/role");
-const product_entity_1 = require("../product/entities/product.entity");
+exports.Product = void 0;
+const user_entity_1 = require("../../entity/user.entity");
 const typeorm_1 = require("typeorm");
-let User = class User {
+let Product = class Product {
 };
-exports.User = User;
+exports.Product = Product;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], User.prototype, "id", void 0);
+], Product.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], User.prototype, "firstName", void 0);
+], Product.prototype, "Name", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], User.prototype, "lastName", void 0);
+], Product.prototype, "Color", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], User.prototype, "username", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ unique: true }),
-    __metadata("design:type", String)
-], User.prototype, "email", void 0);
+    __metadata("design:type", Number)
+], Product.prototype, "Weight", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], User.prototype, "password", void 0);
-__decorate([
-    (0, typeorm_1.Column)({
-        type: 'enum',
-        enum: role_1.Role,
-        default: role_1.Role.unknown,
-    }),
-    __metadata("design:type", String)
-], User.prototype, "role", void 0);
+    __metadata("design:type", Number)
+], Product.prototype, "Price", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
-], User.prototype, "created_At", void 0);
+], Product.prototype, "created_At", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => product_entity_1.Product, (Product) => Product.user),
-    __metadata("design:type", Array)
-], User.prototype, "product", void 0);
-exports.User = User = __decorate([
-    (0, typeorm_1.Entity)()
-], User);
-//# sourceMappingURL=user.entity.js.map
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Product.prototype, "userId", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.product, {
+        eager: true
+    }),
+    (0, typeorm_1.JoinColumn)({
+        name: 'userId',
+        referencedColumnName: 'id'
+    }),
+    __metadata("design:type", user_entity_1.User)
+], Product.prototype, "user", void 0);
+exports.Product = Product = __decorate([
+    (0, typeorm_1.Entity)({ name: 'product' })
+], Product);
+//# sourceMappingURL=product.entity.js.map

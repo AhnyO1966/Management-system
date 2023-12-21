@@ -39,15 +39,18 @@ let AuthService = class AuthService {
     }
     async signIn(payload) {
         const { email, password } = payload;
-        const user = await this.userRepository.findOne({ where: { email: email } });
+        const user = await this.userRepository.createQueryBuilder("user")
+            .addSelect("user.password").where("user.email = :email", { email: payload.email }).getOne();
         if (!user) {
             throw new common_1.HttpException('invalid credentials', 400);
         }
         if (!await bcrypt.compare(password, user.password)) {
             throw new common_1.HttpException('invalid credentials', 400);
         }
-        const jwtPayload = { id: user.id, email: user.email };
-        const jwtToken = await this.jwtService.signAsync(jwtPayload);
+        const jwtToken = await this.jwtService.signAsync({
+            email: user.email,
+            id: user.id
+        });
         return { token: jwtToken };
     }
     async findEmail(email) {
