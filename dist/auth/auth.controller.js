@@ -20,6 +20,7 @@ const login_dto_1 = require("../dto/login.dto");
 const passport_1 = require("@nestjs/passport");
 const role_1 = require("./guard/role");
 const role_guard_1 = require("./guard/role.guard");
+const throttler_1 = require("@nestjs/throttler");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -39,9 +40,7 @@ let AuthController = class AuthController {
             userToken: token
         });
     }
-    async logout(payload, res) {
-        const token = await this.authService.signIn(payload);
-        ;
+    async logout(res) {
         res.clearCookie('isAuthenticated');
         res.send('logged out successfully');
     }
@@ -66,23 +65,25 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
+    (0, throttler_1.Throttle)({ default: { limit: 2, ttl: 60000 } }),
     (0, common_1.Post)('logout'),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
+    __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
 __decorate([
+    (0, throttler_1.SkipThrottle)({ default: false }),
     (0, common_1.Get)('get'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)(), role_guard_1.RolesGuard),
-    (0, role_1.Roles)('admin', 'customer'),
+    (0, role_1.Roles)('admin', 'unknown'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "findUser", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
+    (0, throttler_1.SkipThrottle)(),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

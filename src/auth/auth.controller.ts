@@ -3,14 +3,14 @@ import { AuthService } from './auth.service';
 import { signupDto } from '../dto/signup.dto';
 import { loginDto } from '../dto/login.dto';
 import {Response} from 'express';
-// import { send } from 'process';
-// import { User } from 'src/entity/user.entity';
-import { AuthGuard, IAuthGuard, Type } from '@nestjs/passport';
-// import { Role } from 'src/enum/role';
+import { AuthGuard } from '@nestjs/passport';
 import { Roles } from './guard/role';
 import { RolesGuard } from './guard/role.guard';
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
+
 
 @Controller('auth')
+@SkipThrottle()
 export class AuthController {
         constructor(private authService:AuthService){}
 
@@ -33,18 +33,21 @@ export class AuthController {
             })
         }
 
+        @Throttle({ default: { limit: 2, ttl: 60000 } })
         @Post('logout')
-        async logout(@Body()payload, @Res()res:Response){
+        async logout(@Res()res:Response){
 
-            const token = await this.authService.signIn(payload);;
+            // const token = await this.authService.signIn(payload);;
             res.clearCookie('isAuthenticated');
 
                 res.send('logged out successfully')
             }
 
+         
+            @SkipThrottle({default:false})
             @Get('get')
             @UseGuards(AuthGuard(), RolesGuard)
-            @Roles('admin','customer')
+            @Roles('admin','unknown')
             async findUser(){
                 return await this.authService.findAllUser()
             }

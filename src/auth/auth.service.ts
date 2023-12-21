@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { signupDto } from '../dto/signup.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-// import { loginDto } from 'src/dto/login.dto';
 import { loginDto } from '../dto/login.dto';
 
 @Injectable()

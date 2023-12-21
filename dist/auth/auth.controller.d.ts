@@ -14,6 +14,6 @@ export declare class AuthController {
         password: string;
     } & import("../entity/user.entity").User>;
     login(payload: loginDto, res: Response): Promise<Response<any, Record<string, any>>>;
-    logout(payload: any, res: Response): Promise<void>;
+    logout(res: Response): Promise<void>;
     findUser(): Promise<import("../entity/user.entity").User[]>;
 }
